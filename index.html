@@ -1,1 +1,59 @@
-g
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pembatas antara Div</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* Hanya untuk gaya tampilan contoh */
+        .container {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+* {
+  box-sizing: border-box;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>UID： 815778427</h2>
+        <h2>USERNAME： LingXu</h2>
+        <hr>
+        <h2>twitch： NexChan45</h2>
+    </div>
+	<hr> <!-- Ini adalah garis pembatas -->
+	
+    <div class="container">
+        <h1>Selamat datang di contoh halaman HTML</h1>
+        <h2>Ini adalah contoh tautan HTML:</h2>
+        <a href="https://www.twitch.tv/broadcast/studio" target="_blank">twitch studio download</a>
+        <div>
+            <button onclick="location.href='https://www.twitch.tv/broadcast/studio'" type="button" class="btn"><i class="fa fa-download"></i> twitch studio download</button>
+        </div>
+    </div>
+
+    <hr> <!-- Ini adalah garis pembatas -->
+
+    <div class="container">
+        <h2>Ini adalah contoh tautan HTML:</h2>
+        <a href="https://act.hoyoverse.com/sr/event/e20230914webcast/index.html?game_biz=hkrpg_global&hyl_presentation_style=fullscreen&hyl_auth_required=true&utm_source=sns&utm_medium=facebook" target="_blank">hoyo link</a>
+        <div>
+            <button onclick="location.href='https://act.hoyoverse.com/sr/event/e20230914webcast/index.html?game_biz=hkrpg_global&hyl_presentation_style=fullscreen&hyl_auth_required=true&utm_source=sns&utm_medium=facebook'" type="button" class="btn"><i class="fa fa-download"></i> hoyo link</button>
+        </div>
+    </div>
+</body>
+</html>
