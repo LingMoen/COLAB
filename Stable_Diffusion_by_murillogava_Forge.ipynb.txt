@@ -1,0 +1,162 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "gpuType": "T4",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/LingMoen/COLAB/blob/main/Stable_Diffusion_by_murillogava_Forge.ipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# ATENÇÃO\n",
+        "O objetivo do notebook é facilitar o uso do [Stable Diffusion WebUI Forge](https://github.com/lllyasviel/stable-diffusion-webui-forge) no Google Colab.\n",
+        "\n",
+        "O arquivo de base desse colab foi o [RedDeltasSDForge.ipynb](https://colab.research.google.com/github/RedDeltas/SDForge-Colab/blob/main/RedDeltasSDForge.ipynb)\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "G1THoku412to"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from google.colab import drive\n",
+        "\n",
+        "USAR_GOOGLE_DRIVE = False  #@param {type:\"boolean\"}\n",
+        "UPDATE_FORGE = True  #@param {type:\"boolean\"}\n",
+        "INSTALAR_DEPENDENCIAS = True #@param {type:\"boolean\"}\n",
+        "PERMITIR_INSTALAR_EXTENSOES = True #@param {type:\"boolean\"}\n",
+        "USE_USERNAME_AND_PASSWORD = False\n",
+        "USERNAME = \"RedDeltas\"\n",
+        "PASSWORD = \"IsTheBest\"\n",
+        "\n",
+        "WORKSPACE = '/content/stable-diffusion-webui-forge'\n",
+        "\n",
+        "if USAR_GOOGLE_DRIVE:\n",
+        "  print(\"📂 Connecting to Google Drive...\")\n",
+        "  drive.mount('/content/drive')\n",
+        "\n",
+        "  WORKSPACE = \"/content/drive/MyDrive/stable-diffusion-webui-forge\"\n",
+        "  %cd /content/drive/MyDrive\n",
+        "\n",
+        "![ ! -d $WORKSPACE ] && echo -= Initial setup SDForge =- && git clone --config core.filemode=false https://github.com/lllyasviel/stable-diffusion-webui-forge.git\n",
+        "%cd $WORKSPACE\n",
+        "\n",
+        "extra_args = []\n",
+        "\n",
+        "if UPDATE_FORGE:\n",
+        "  !echo -= Updating SDForge =-\n",
+        "  !git pull\n",
+        "\n",
+        "if INSTALAR_DEPENDENCIAS:\n",
+        "  !echo -= Install dependencies =-\n",
+        "  !pip3 install insightface\n",
+        "\n",
+        "if PERMITIR_INSTALAR_EXTENSOES:\n",
+        "  extra_args.append(\"--enable-insecure-extension-access\")\n",
+        "\n",
+        "if USE_USERNAME_AND_PASSWORD:\n",
+        "  extra_args.append(f\"--gradio-auth {USERNAME}:{PASSWORD}\")\n",
+        "\n",
+        "extra_args_concat = \" \".join(extra_args)"
+      ],
+      "metadata": {
+        "id": "rEeZ9in5tBhT",
+        "cellView": "form"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#@markdown # Encontre o código do modelo em  [https://civitai.com/](https://civitai.com/)\n",
+        "\n",
+        "Modelo = \"https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=pruned&fp=fp16\"  #@param {type:\"string\"}\n",
+        "NomeModelo = \"Realistic.safetensors\"  #@param {type:\"string\"}\n",
+        "\n",
+        "!wget -O \"{WORKSPACE}/models/Stable-diffusion/{NomeModelo}\"  \"{Modelo}\""
+      ],
+      "metadata": {
+        "cellView": "form",
+        "id": "oOhro2ftgOYX"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Caso deseja instale a extensão [civitai_downloader](https://github.com/monsterhunters/civitai_downloader.git)"
+      ],
+      "metadata": {
+        "id": "n73J7OlrnWgE"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#@markdown # Download - ControlNet Openpose\n",
+        "\n",
+        "!mkdir -p \"{WORKSPACE}/models/ControlNet\"\n",
+        "!wget -O \"{WORKSPACE}/models/ControlNet/control_v11p_sd15_openpose.pth\" \"https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_openpose.pth\""
+      ],
+      "metadata": {
+        "cellView": "form",
+        "id": "kmNxY07Q30ia"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#@markdown # Executar\n",
+        "!python launch.py --share {extra_args_concat}"
+      ],
+      "metadata": {
+        "id": "k_fsFs4jdrhj",
+        "cellView": "form"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#@markdown # Conectando no Google Drive\n",
+        "from google.colab import drive\n",
+        "drive.mount('/content/gdrive', force_remount=True)"
+      ],
+      "metadata": {
+        "cellView": "form",
+        "id": "9kR0n9zkTj43"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
